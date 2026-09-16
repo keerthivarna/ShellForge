@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "shell.h"
 #include "input.h"
 #include "parser.h"
 #include "process.h"
+#include "builtin.h"
 
 int main()
 {
@@ -25,13 +25,6 @@ int main()
         if (input == NULL)
             break;
 
-        if (strcmp(input, "exit") == 0)
-        {
-            printf("Exiting ShellForge...\n");
-            free(input);
-            break;
-        }
-
         args = parse_input(input);
 
         if (args == NULL)
@@ -41,7 +34,12 @@ int main()
         }
 
         if (args[0] != NULL)
-            execute(args);
+        {
+            if (execute_builtin(args) == 0)
+            {
+                execute(args);
+            }
+        }
 
         free(args);
         free(input);
