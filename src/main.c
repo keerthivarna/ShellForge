@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "shell.h"
 #include "input.h"
+#include "parser.h"
 
 int main()
 {
     char *input;
+    char **args;
 
     printf("=====================================\n");
     printf(" Welcome to %s Version %s\n", SHELL_NAME, SHELL_VERSION);
@@ -28,8 +31,22 @@ int main()
             break;
         }
 
-        printf("You entered : %s\n", input);
+        args = parse_input(input);
 
+        if (args == NULL)
+        {
+            free(input);
+            continue;
+        }
+
+        printf("Command: %s\n", args[0]);
+
+        for (int i = 1; args[i] != NULL; i++)
+        {
+            printf("Argument %d: %s\n", i, args[i]);
+        }
+
+        free(args);
         free(input);
     }
 
