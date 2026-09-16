@@ -5,6 +5,7 @@
 #include "shell.h"
 #include "input.h"
 #include "parser.h"
+#include "process.h"
 
 int main()
 {
@@ -39,12 +40,8 @@ int main()
             continue;
         }
 
-        printf("Command: %s\n", args[0]);
-
-        for (int i = 1; args[i] != NULL; i++)
-        {
-            printf("Argument %d: %s\n", i, args[i]);
-        }
+        if (args[0] != NULL)
+            execute(args);
 
         free(args);
         free(input);
